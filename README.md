@@ -15,27 +15,33 @@ This project aims to analyze disparities in bus service performance and equity i
 
 Ridership per route (including pre vs. post-pandemic changes) will be obtained using:
 
-MBTA Bus Ridership by Time Period, Season, Route/Line, and Stop \- Fall: [https://mbta-massdot.opendata.arcgis.com/datasets/7acd353c1a734eb8a23caf46a0e66b23\_0/explore](https://mbta-massdot.opendata.arcgis.com/datasets/7acd353c1a734eb8a23caf46a0e66b23_0/explore)
+# MBTA Bus Ridership by Time Period, Season, Route/Line, and Stop \- Fall: [https://mbta-massdot.opendata.arcgis.com/datasets/7acd353c1a734eb8a23caf46a0e66b23\_0/explore](https://mbta-massdot.opendata.arcgis.com/datasets/7acd353c1a734eb8a23caf46a0e66b23_0/explore)
 
 # MBTA Bus Ridership by Time Period Season Route/Line and Stop \- Spring 2020, 2021: [https://mbta-massdot.opendata.arcgis.com/datasets/adbe3a94edcd44259cfee2621ed9f3a7\_0/explore](https://mbta-massdot.opendata.arcgis.com/datasets/adbe3a94edcd44259cfee2621ed9f3a7_0/explore)
 
 End-to-end travel time per route will take into account scheduled running time vs. observed running time by comparing schedule data to realtime vehicle positionary data. MBTA open performance pipeline will supplement these findings.
 
-# MBTA Bus Arrival Departure Times 2025: [https://mbta-massdot.opendata.arcgis.com/datasets/924df13d845f4907bb6a6c3ed380d57a/about](https://mbta-massdot.opendata.arcgis.com/datasets/924df13d845f4907bb6a6c3ed380d57a/about)
-
 # MBTA Bus, Commuter Rail, & Rapid Transit Reliability: [https://mbta-massdot.opendata.arcgis.com/datasets/b3a24561c2104422a78b593e92b566d5\_0/explore](https://mbta-massdot.opendata.arcgis.com/datasets/b3a24561c2104422a78b593e92b566d5_0/explore)
 
 Wait time and average delay across all routes have been redefined by the MBTA to alter what constitutes “on time” or “delayed”. This margin of error from scheduled windows has changed over the past two years to account for dropped trips in a new metric “Excess Trip Time”.
 
-# MBTA Bus Arrival Departure Times 2018:
+# MBTA Bus Arrival Departure Times 2018: [https://mbta-massdot.opendata.arcgis.com/datasets/d685ba39d9a54d908f49a2a762a9eb47/about](https://mbta-massdot.opendata.arcgis.com/datasets/d685ba39d9a54d908f49a2a762a9eb47/about)
 
-[https://mbta-massdot.opendata.arcgis.com/datasets/d685ba39d9a54d908f49a2a762a9eb47/about](https://mbta-massdot.opendata.arcgis.com/datasets/d685ba39d9a54d908f49a2a762a9eb47/about)
+# MBTA Bus Arrival Departure Times 2019: [https://mbta-massdot.opendata.arcgis.com/datasets/1bd340b39942438685d8dcdfe3f26d1a/about](https://mbta-massdot.opendata.arcgis.com/datasets/1bd340b39942438685d8dcdfe3f26d1a/about)
+
+# MBTA Bus Arrival Departure Times 2020: [https://mbta-massdot.opendata.arcgis.com/datasets/4c1293151c6c4a069d49e6b85ee68ea4/about](https://mbta-massdot.opendata.arcgis.com/datasets/4c1293151c6c4a069d49e6b85ee68ea4/about)
 
 # MBTA Bus Arrival Departure Times 2021: [https://mbta-massdot.opendata.arcgis.com/datasets/2d415555f63b431597721151a7e07a3e/about](https://mbta-massdot.opendata.arcgis.com/datasets/2d415555f63b431597721151a7e07a3e/about)
 
-MBTA Bus Arrival Departure Times 2023: [https://mbta-massdot.openda](https://mbta-massdot.opendata.arcgis.com/datasets/b7b36fdb7b3a4728af2fccc78c2ca5b7/about)[https://mbta-massdot.opendata.arcgis.com/datasets/155ab68df00145cabddfb90377201b0e/explore](https://mbta-massdot.opendata.arcgis.com/datasets/155ab68df00145cabddfb90377201b0e/explore)[ta.arcgis.com/datasets/b7b36fdb7b3a4728af2fccc78c2ca5b7/about](https://mbta-massdot.opendata.arcgis.com/datasets/b7b36fdb7b3a4728af2fccc78c2ca5b7/about)
+# MBTA Bus Arrival Departure Times 2022: [https://mbta-massdot.opendata.arcgis.com/datasets/ef464a75666349f481353f16514c06d0/about](https://mbta-massdot.opendata.arcgis.com/datasets/ef464a75666349f481353f16514c06d0/about)
 
-Arrival Prediction Accuracy: [https://www.mbta.com/performance-metrics/arrival-prediction-accuracy](https://www.mbta.com/performance-metrics/arrival-prediction-accuracy)
+# MBTA Bus Arrival Departure Times 2023: [https://mbta-massdot.openda](https://mbta-massdot.opendata.arcgis.com/datasets/b7b36fdb7b3a4728af2fccc78c2ca5b7/about)
+
+# MBTA Bus Arrival Departure Times 2024: [https://mbta-massdot.opendata.arcgis.com/datasets/96c77138c3144906bce93d0257531b6a/about](https://mbta-massdot.opendata.arcgis.com/datasets/96c77138c3144906bce93d0257531b6a/about)
+
+# MBTA Bus Arrival Departure Times 2025: [https://mbta-massdot.opendata.arcgis.com/datasets/924df13d845f4907bb6a6c3ed380d57a/about](https://mbta-massdot.opendata.arcgis.com/datasets/924df13d845f4907bb6a6c3ed380d57a/about)
+
+# Arrival Prediction Accuracy: [https://www.mbta.com/performance-metrics/arrival-prediction-accuracy](https://www.mbta.com/performance-metrics/arrival-prediction-accuracy)
 
 # Rapid Transit and Bus Prediction Accuracy Data: [https://mbta-massdot.opendata.arcgis.com/datasets/155ab68df00145cabddfb90377201b0e/explore](https://mbta-massdot.opendata.arcgis.com/datasets/155ab68df00145cabddfb90377201b0e/explore)
 
