@@ -15,11 +15,21 @@ Data contains ridership information from 2016-2024, seasons: Fall (all years) (s
   <figcaption>Hourly demand cycles clearly show AM (~7–9 AM) and PM (~3–6 PM) commuter peaks.</figcaption>
 </figure>
 
-![Pandemic impact: Systemwide ridership collapsed in 2020–2021 and has recovered by 2024.](images/total_ridership_year.png)
+<figure>
+  <img src="images/total_ridership_year.png)" width="45%">
+  <figcaption>Pandemic impact: Systemwide ridership collapsed in 2020–2021 and has recovered by 2024.</figcaption>
+</figure>
 
-![Top 10 routes dominate overall ridership, especially routes serving transit-dependent neighborhoods.](images/top_10_routes.png)
+<figure>
+  <img src="images/top_10_routes.png)" width="60%">
+  <figcaption>Top 10 routes dominate overall ridership, especially routes serving transit-dependent neighborhoods.</figcaption>
+</figure>
 
-![Crowding heatmap (avg onboard load) reveals persistent peak-hour congestion on core parts(Routes 28, 66, 1).](images/load_heatmap.png)
+<figure>
+  <img src="images/load_heatmap.png)" >
+  <figcaption>TCrowding heatmap (avg onboard load) reveals persistent peak-hour congestion on core parts(Routes 28, 66, 1).</figcaption>
+</figure>
+
 
 **Predictive Modeling Methods** (So Far): predictve_ridership.ipynb
 
@@ -52,6 +62,82 @@ The current graph models total boardings per route per hour across ALL stops–g
 
 Future modeling target: combine boardings per stop, delay per stop, load per stop, and demographics to answer the question: 
 P(delay > X) at Stop a, hour=7AM, weekday, Route 28
+
+
+**Reliability Data**
+
+<u>Data Processing:</u>
+The initial analysis was performed on the "MBTA Commuter Rail, Bus, Rapid Transit Reliability" dataset. The goal of our processing was to isolate a clean, analysis-ready dataset focused specifically on bus service reliability for the period relevant to our project (2018-present).
+
+In the context of this project, reliability is one of the most important metrics to determine service quality. 
+Reliability Metric: percentage of observed bus trips that were both on time (schedule adherence) and properly spaced (headway). 
+
+The following processing pipeline was executed:
+
+<u>Data loading</u>: The raw CSV data was loaded into a pandas DataFrame.
+
+Mode filtering: The dataset was filtered to retain only records where the mode_type was 'Bus'. All 'Rail' and 'Commuter Rail' data was discarded.
+
+Time filtering: The data was filtered to include only records where the service_date was on or after January 1, 2018, establishing our pre- and post-pandemic analysis window.
+
+Handling missing values:
+
+‘cancelled_numerator’: Null (NaN) values in this column were filled with 0, based on the assumption that a missing value indicates zero observed cancellations for that service block.
+
+‘otp_numerator / otp_denominator’: Rows with null values in either of these essential columns were dropped, as reliability cannot be calculated without them.
+
+<u>Feature Engineering (Reliability Metric)</u>:
+
+The primary dependent variable, reliability_metric, was engineered by dividing otp_numerator by otp_denominator.
+
+This metric represents the percentage of observed bus trips that met service standards.This metric serves as our primary proxy for service quality and the inverse of delay risk.
+The resulting cleaned dataset contains a daily reliability score for each unique bus route (gtfs_route_short_name) and service period (peak_offpeak_ind).
+
+<u>Preliminary Visualizations</u>:
+We produced a system-wide reliability time series. This plot shows average reliability across all bus routes, aggregated monthly.
+
+The plot displays two lines: one for 'PEAK' (weekday rush hour) and one for 'OFF_PEAK' (all other times). A vertical red line marks the start of the COVID-19 pandemic in March 2020.
+
+
+![alt text](images/avg_monthly_reliability.png)
+![alt text](images/top_5_reliability.png)
+
+Key insights:
+- Infrastructure is a decisive factor, the top performing routes, such as the SL2 and SL5, are Bus Rapid Transit (BRT) routes that operate in dedicated, bus only lanes. Their high performance is not random but a direct result of infrastructure  that physically separates them from car traffic.
+
+- The performance gap between PEAK and OFF_PEAK is minimal or non-existent. This is a critical finding, giving us hints that with proper infrastructure, it is possible to run a highly reliable bus service even during rush hour.
+
+- Unlike the system-wide plot, these top performing routes showed almost no change in reliability after the March 2020 pandemic line. Their performance was already high and remained high, proving they are largely decoupled from the traffic congestion that plagues other routes.
+
+
+Results:
+- Service disparities are evident: The analysis confirms that performance is not evenly distributed. The ability to identify the low and high performing routes is the first crucial step in linking service quality to specific communities or demographics. 
+
+- "Rush hour" is less reliable: The data confirms that PEAK service is consistently less reliable than OFF_PEAK service. This implies that commuters, who are most likely to travel during PEAK hours, are disproportionately affected by delays.
+
+- Reliability shows a clear inversely correlation with traffic: The pandemic provided the situation  where reliability increased as traffic vanished. This supports the hypothesis that delays on low-performing routes are primarily driven by congestion from mixed traffic.
+
+**Average Delay Data**
+<u>Overview</u>:
+
+	This report summarizes the process of computing average bus delays across MBTA routes from 2018 to 2025, excluding 2020. The analysis focused on both citywide averages and target routes identified by the Livable Streets report.
+
+<u>Data Cleaning and Filtering</u>:
+
+	After extraction, route IDs were cross-referenced with the official MBTA route listings to exclude inactive or internal routes (e.g., 191–194, 743, 746_, etc.). The cleaned dataset focused only on active public routes and defined a subset of target routes matching the Livable Streets report.
+
+<u>Technical Implementation</u>:
+
+For each route and service year, the script calculated:
+Average delay time (actual departure minus scheduled departure)
+Average passenger wait (based on headway)
+End-to-end travel time per route
+Citywide and target route averages
+
+Preliminary Visualizations:
+
+![alt text](images/avg_delay_route_and_yr.png)
+
 
 
 
