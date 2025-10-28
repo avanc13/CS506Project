@@ -10,8 +10,10 @@ Datasets: Using ridership data collected from: https://mbta-massdot.opendata.arc
 Data contains ridership information from 2016-2024, seasons: Fall (all years) (spring 2024 only).
 
 **Key visual Findings: combining_data.ipynb**
-
-![Hourly demand cycles clearly show AM (~7–9 AM) and PM (~3–6 PM) commuter peaks.](images/ridership_hour_day_type.png)
+<figure>
+  <img src="images/ridership_hour_day_type.png" width="45%">
+  <figcaption>Hourly demand cycles clearly show AM (~7–9 AM) and PM (~3–6 PM) commuter peaks.</figcaption>
+</figure>
 
 ![Pandemic impact: Systemwide ridership collapsed in 2020–2021 and has recovered by 2024.](images/total_ridership_year.png)
 
