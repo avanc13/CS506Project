@@ -120,11 +120,11 @@ Results:
 **Average Delay Data**
 <u>Overview</u>:
 
-	This report summarizes the process of computing average bus delays across MBTA routes from 2018 to 2025, excluding 2020. The analysis focused on both citywide averages and target routes identified by the Livable Streets report.
+This report summarizes the process of computing average bus delays across MBTA routes from 2018 to 2025, excluding 2020. The analysis focused on both citywide averages and target routes identified by the Livable Streets report.
 
 <u>Data Cleaning and Filtering</u>:
 
-	After extraction, route IDs were cross-referenced with the official MBTA route listings to exclude inactive or internal routes (e.g., 191–194, 743, 746_, etc.). The cleaned dataset focused only on active public routes and defined a subset of target routes matching the Livable Streets report.
+After extraction, route IDs were cross-referenced with the official MBTA route listings to exclude inactive or internal routes (e.g., 191–194, 743, 746_, etc.). The cleaned dataset focused only on active public routes and defined a subset of target routes matching the Livable Streets report.
 
 <u>Technical Implementation</u>:
 
@@ -137,6 +137,20 @@ Citywide and target route averages
 Preliminary Visualizations:
 
 ![alt text](images/avg_delay_route_and_yr.png)
+
+**Next Steps**
+
+We will expand from route-level ridership forecasting to stop-level equity analysis, incorporating service reliability and neighborhood demographics.
+Modeling Enhancements
+New predictive targets:
+- P(delay > X min) per stop per trip
+- Crowding risk on high-demand routes
+
+Equity Evaluation
+
+- Compare delay and crowding exposure across demographic groups
+- Highlight inequities on priority routes (22, 28, 29, etc.)
+- report which neighborhoods are most impacted
 
 
 
