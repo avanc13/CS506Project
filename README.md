@@ -16,17 +16,17 @@ Data contains ridership information from 2016-2024, seasons: Fall (all years) (s
 </figure>
 
 <figure>
-  <img src="images/total_ridership_year.png)" width="45%">
+  <img src="images/total_ridership_year.png" width="45%">
   <figcaption>Pandemic impact: Systemwide ridership collapsed in 2020–2021 and has recovered by 2024.</figcaption>
 </figure>
 
 <figure>
-  <img src="images/top_10_routes.png)" width="60%">
+  <img src="images/top_10_routes.png" width="60%">
   <figcaption>Top 10 routes dominate overall ridership, especially routes serving transit-dependent neighborhoods.</figcaption>
 </figure>
 
 <figure>
-  <img src="images/load_heatmap.png)" >
+  <img src="images/load_heatmap.png" >
   <figcaption>TCrowding heatmap (avg onboard load) reveals persistent peak-hour congestion on core parts(Routes 28, 66, 1).</figcaption>
 </figure>
 
