@@ -41,7 +41,7 @@ Data contains ridership information from 2016–2024, seasons: Fall (all years) 
 
 ---
 
-## **Predictive Modeling Methods** (So Far): predictve_ridership.ipynb
+## **Predictive Modeling Methods** (Mideterm Report): predictve_ridership.ipynb
 
 Built a baseline ridership forecasting model, using:
 
@@ -67,22 +67,13 @@ Built a baseline ridership forecasting model, using:
 
 ---
 
-**What have we learned so far?**
+**What have we learned so far? (midterm)**
 
 There is enough signal in the features to predict ridership volume for the post pandemic years. This baseline model explains ~75% of the variability in the target–indicating that the structure of our data is learnable and generalizable. 
 
 ---
 
-**Limitations and Next Steps:**
-
-The current graph models total boardings per route per hour across ALL stops–good for macro-level ideas but not enough for stop level equity and noise. 
-
-Future modeling target: combine boardings per stop, delay per stop, load per stop, and demographics to answer the question:  
-**P(delay > X) at Stop a, hour=7AM, weekday, Route 28**
-
----
-
-**Ridership Forecasting with Demographics + Equity Analysis (equity.ipynb)**
+**New Modeling- Ridership Forecasting with Demographics + Equity Analysis (equity.ipynb)**
 Goal: Improve forecast accuracy and test whether errors are systematically related to demographic characteristics of riders.
 
 Added Features (route-level survey percentages):
