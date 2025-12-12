@@ -22,9 +22,9 @@ This project requires Python 3.9+ and the following packages:
 
 Install dependencies with:
 
-'''bash
+```bash
 pip install -r requirements.txt
-
+```
 ---
 ## Data
 
@@ -37,7 +37,7 @@ Source: https://mbta-massdot.opendata.arcgis.com/
 
 MBTA_systemwide_survey_results_by_station_and_line.xlsx
 
-Source: https://www.ctps.org/dv/mbtasurvey2018/
+Source: https://www.ctps.org/dv/mbtasurvey2018/index.html#navButton
 
 run: equity.ipynb for model and visualizations
 ## **Ridership Data**
