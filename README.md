@@ -82,6 +82,83 @@ Future modeling target: combine boardings per stop, delay per stop, load per sto
 
 ---
 
+**Ridership Forecasting with Demographics + Equity Analysis (equity.ipynb)**
+Goal: Improve forecast accuracy and test whether errors are systematically related to demographic characteristics of riders.
+
+Added Features (route-level survey percentages):
+pct_minority, pct_low_income, pct_zero_vehicle, pct_limited_english, pct_youth, pct_senior
+
+Model: RandomForestRegressor (same pipeline structure; demographics added as numeric features)
+
+Results (test):
+- MAE ≈ 20.38
+- R² ≈ 0.92
+<figure style="text-align:center;">
+  <img src="images/predicted_boardings.png" width="55%">
+</figure>
+
+This indicates that demographic variables capture additional structure in ridership patterns (especially across post-pandemic years), beyond time + route alone.
+
+---
+
+**Equity / Error Analysis**
+After predicting on the test set, I compute residuals:
+- residual = predicted − actual
+- residual < 0 → underprediction
+
+I then evaluate whether residuals trend with demographics (like pct_minority). A negative trend indicates underprediction for higher-minority routes--otherwise the residuals would be pretty uniform.
+
+<figure style="text-align:center;">
+  <img src="images/residuals_vs_pct_minority.png" width="55%">
+  <figcaption>Residuals vs percent minority on test set. Negative trends indicate underprediction on higher-minority routes.</figcaption>
+</figure>
+
+<figure style="text-align:center;">
+  <img src="images/pct_minority_resid_line.png" width="55%">
+  <figcaption>Residuals vs percent minority on test set. Negative trends indicate underprediction on higher-minority routes.</figcaption>
+</figure>
+
+<figure style="text-align:center;">
+  <img src="images/colored.png" width="55%">
+  <figcaption>Residuals vs percent minority on test set. Negative trends indicate underprediction on higher-minority routes.</figcaption>
+</figure>
+
+---
+
+**Fairness-Style Classifier (Error Predictability)**
+To test whether underprediction is systematic rather than random, I train a classifier to predict whether an observation is underpredicted, using demographics as inputs.
+
+- Label: underpredicted (based on residual threshold)
+- Model: Logistic Regression (interpretable)
+- Evaluation: ROC-AUC
+
+Result: ROC-AUC ≈ 0.84
+<figure style="text-align:center;">
+  <img src="images/auroc.png" width="55%">
+</figure>
+
+This suggests underprediction is predictable from demographics, meaning model errors are structured and associated with rider demographics.
+
+What We Learned:
+Baseline forecasting works: route + time features predict ridership well (R² ~ 0.75).
+
+Demographics improve predictions substantially (R² ~ 0.92), suggesting ridership patterns are strongly tied to structural rider characteristics (car access, minority share, etc.).
+Errors are not uniform: residual analysis indicates systematic underprediction on higher-minority routes.
+
+Underprediction is predictable from demographic variables (AUC ~ 0.84), supporting the idea that errors are structured and equity-relevant.
+
+---
+
+**Limitations**
+
+Demographics are from 2015–2017 and applied across 2016–2024. Post-COVID ridership composition may have shifted.
+Demographics are route-level averages, not stop-level; within-route heterogeneity is not captured.
+
+Ridership estimates include sampling noise and inconsistent coverage (sample_size/sample_count), which can affect both prediction and residual analysis.
+
+This analysis is correlational, not really causal: demographic features may proxy other unobserved factors (service frequency, land use, employment patterns, there are many other factros).
+
+
 ## **Reliability Data**
 
 <h3><u>Data Processing:</u></h3>
