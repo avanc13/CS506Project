@@ -244,49 +244,156 @@ The plot displays two lines: one for 'PEAK' (weekday rush hour) and one for 'OFF
 
 ---
 
-## **Average Delay Data**
+## **MBTA Bus Delay & Passenger Wait Time Analysis (2018–2024)**
 
 <h3><u>Overview</u></h3>
 
-This report summarizes the process of computing average bus delays across MBTA routes from 2018 to 2025, excluding 2020. The analysis focused on both citywide averages and target routes identified by the Livable Streets report.
+This report summarizes MBTA bus arrival and departure data from 2018–2024 to quantify service reliability, passenger wait times, and delay patterns across selected high-ridership routes. The analysis integrates large-scale data cleaning, feature engineering, exploratory data analysis (EDA), and machine learning models to predict bus delays and evaluate system performance.
+
+Key goals of include:
+- Understanding how long passengers wait for buses (on-time vs. delayed)
+- Measuring average delay patterns by route and year
+- Visualizing end-to-end travel time behavior
+- Building classification and regression models to predict delays
+- Evaluating model performance using standard ML metrics
+- Target routes were selected to ensure consistent data availability and meaningful comparisons across years.
 
 <h3><u>Data Cleaning and Filtering</u></h3>
 
-After extraction, route IDs were cross-referenced with the official MBTA route listings to exclude inactive or internal routes (e.g., 191–194, 743, 746_, etc.). The cleaned dataset focused only on active public routes and defined a subset of target routes matching the Livable Streets report.
+Raw MBTA Bus Arrival/Departure CSV files vary significantly across years in column naming, formatting, and data completeness. A standardized preprocessing pipeline was developed to ensure consistency.
 
-<h3><u>Technical Implementation</u></h3>
+Cleaning steps:
+- Standardized column names across all years (e.g., ```route_id```, ```scheduled```, ```actual```, ```headway```)
+- Dropped unused or inconsistently reported fields
+- Converted timestamps to datetime objects
+- Computed delay values in minutes
+- Filtered data to a fixed set of target routes
+- Removed corrupted, incomplete, or malformed rows
 
-For each route and service year, the script calculated:
-- Average delay time (actual departure minus scheduled departure)
-- Average passenger wait (based on headway)
-- End-to-end travel time per route
-- Citywide and target route averages
+<h3><u>Feature Engineering</u></h3>
+
+Several features were engineered to support both EDA and modeling:
+- Delay (minutes): Difference between scheduled and actual arrival time
+- On-time vs. Delayed label: Binary classification based on a 5-minute threshold
+- Passenger wait time (minutes): Estimated wait time experienced by riders
+- Scheduled vs. actual headways
+- Year extraction from service dates
+- Route-level aggregations
 
 ---
 
 **Preliminary Visualizations:**
 
+<h3><u>Average Bus Delay per Route by Year</u></h3>
+
+Average delay was computed for each route-year combination to assess long-term reliability trends.
+This analysis:
+- Highlights routes with persistent delay issues
+- Identifies year-over-year performance changes
+- Supports fairness by ensuring all routes are represented consistently
+
 <figure style="text-align:center;">
-  <img src="images/avg_delay_route_and_yr.png" width="60%">
+  <img src="images/avg_delay_route_and_yr_2.png" width="60%">
+  <figcaption>Average delay by route and year visualized using target routes from the Livable Streets report.</figcaption>
+</figure>
+
+<h3><u>Heatmap: End-to-End Travel Time per Route</u></h3>
+
+A heatmap visualization was created to show end-to-end travel time patterns across routes and years.
+This visualization helps:
+- Identify routes with consistently longer travel times
+- Compare relative performance across the network
+
+<figure style="text-align:center;">
+  <img src="images/e2e_travel_time.png" width="60%">
+  <figcaption>The plot shows consistent travel times across the years observed, with route 14 having the longest of travel times end to end.</figcaption>
+</figure>
+
+<h3><u>Average Passenger Wait Time (On-Time vs. Delayed)</u></h3>
+Passenger wait time was analyzed separately for on-time and delayed buses.
+
+- On-time bus: Arrival within 5 minutes of the scheduled time
+- Delayed bus: Arrival more than 5 minutes after the scheduled time
+
+Key Insight
+On-time wait time represents the expected wait under normal service, while delayed wait time reflects excess passenger burden caused by service disruptions. Comparing the two isolates the passenger-level impact of delays beyond scheduling assumptions.
+
+<figure style="text-align:center;">
+  <img src="images/avg_pass_wait_time.png" width="60%">
+  <figcaption>The plot shows a decline in wait time across all routes post pandemic with a spike in delays calculated in 2024.</figcaption>
 </figure>
 
 ---
 
-## **Next Steps**
+**Next Steps**
 
 We will expand from route-level ridership forecasting to stop-level equity analysis, incorporating service reliability and neighborhood demographics.
 
-<h4><u>Modeling Enhancements</u></h4>
+**Modeling Enhancements**
 
-**New predictive targets:**
-- P(delay > X min) per stop per trip
-- Crowding risk on high-demand routes
+<h4><u>Classification Model: Random Forest</u></h4>
+A Random Forest classifier was trained to predict whether a bus arrival would be on-time or delayed. Evaluation included:
+- Confusion matrix analysis
+- Accuracy, precision, recall, and error inspection
 
-<h4><u>Equity Evaluation</u></h4>
+<figure style="text-align:center;">
+  <img src="images/ran_for_cm.png" width="60%">
+  <figcaption>Confusion matrix for the binary classification model predicting bus arrival status (on-time vs. delayed). The matrix summarizes correct and incorrect predictions across the test dataset, highlighting the model’s ability to distinguish between delayed and on-time bus arrivals.</figcaption>
+</figure>
 
-- Compare delay and crowding exposure across demographic groups
-- Highlight inequities on priority routes (22, 28, 29, etc.)
-- report which neighborhoods are most impacted
+The classification model achieves an overall accuracy of 72%
+- Class 0 (On-time buses):
+  - Precision: 0.67
+  - Recall: 0.65
+  - F1-score: 0.66
+  - The model correctly identifies a majority of on-time arrivals but occasionally misclassifies delayed buses as on-time, reflecting overlap in operational conditions near the delay threshold.
+- Class 1 (Delayed buses):
+  - Precision: 0.75
+  - Recall: 0.77
+  - F1-score: 0.76
+  - Stronger performance is observed for delayed buses, suggesting the model is more effective at detecting delay-related patterns in the data.
 
+The confusion matrix shows:
+- 10,044 true on-time predictions
+- 16,618 true delayed predictions
+- 5,409 false positives (on-time predicted as delayed)
+- 4,991 false negatives (delayed predicted as on-time)
 
+---
+
+**Regression Models**
+
+<h3><u>Linear Regression</u></h3>
+- MAE ≈ 3.02
+- R^2 score ≈ 0.29
+
+The linear regression model yields an MAE of approximately 3.02 minutes, meaning that on average, predictions are about three minutes away from the actual delay value. The R² score of 0.29 indicates that the model explains roughly 29% of the variance in bus delays.
+
+<h3><u>Gradient Boosting Regression</u></h3>
+- MAE ≈ 2.95
+- R^2 score ≈ 0.34
+
+The gradient boosting regression model achieves a mean absolute error (MAE) of approximately 2.95 minutes, indicating improved predictive accuracy compared to the linear regression baseline. The R² score of 0.34 shows that the model explains roughly 34% of the variance in bus delay duration.
+
+<h3><u>XGBoost Regression</u></h3>
+- MAE ≈ 2.85
+- R^2 score ≈ 0.36
+
+The XGBoost regression model achieves the strongest performance among all evaluated models, with a mean absolute error (MAE) of approximately 2.85 minutes and an R² score of 0.36. This indicates that the model explains roughly 36% of the variance in bus delay duration.
+
+<h3><u>Residual Plot: XGBoost Regression</u></h3>
+
+<figure style="text-align:center;">
+  <img src="images/residual_plot_xgboost.png" width="60%">
+  <figcaption>Residuals are centered around zero with increasing variance for larger predicted delays, indicating reasonable fit with limitations for extreme cases.</figcaption>
+</figure>
+
+<figure style="text-align:center;">
+  <img src="images/p_v_a_xgboost.png" width="60%">
+  <figcaption>Predictions closely track actual delays for typical conditions but diverge for extreme delays.</figcaption>
+</figure>
+
+<h4><u>Conclusion</u></h4>
+
+This section provides an analysis of MBTA bus performance from 2018–2024, combining data cleaning, feature engineering, visualization, and machine learning to evaluate service reliability and passenger wait times. Results show meaningful differences between on-time and delayed service, with delays imposing additional burden on riders. Classification and regression models demonstrate reasonable predictive performance for real-world transit data, with XGBoost achieving the best results (MAE ≈ 2.85 minutes, R² ≈ 0.36).
 
