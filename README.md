@@ -191,6 +191,74 @@ Ridership estimates include sampling noise and inconsistent coverage (sample_siz
 
 This analysis is correlational, not really causal: demographic features may proxy other unobserved factors (service frequency, land use, employment patterns, there are many other factros).
 
+---
+
+## **Route Clustering Analysis: Identifying Underserved Routes**
+
+Code: route_clustering.ipynb
+
+**Goal**: Group MBTA bus routes by performance + demographics to identify which route clusters are systematically underserved.
+
+### Methodology
+
+**Data Integration:**
+- Connected 2022 Census demographics to bus routes via spatial join (stops → census tracts → routes)
+- Matched 6,806 / 6,890 stops (98.8% match rate) across 5 MA counties
+
+**Features (7 total):**
+- Performance: avg_boardings, avg_load, avg_reliability
+- Demographics: median_income, pct_nonwhite, pct_no_vehicle, pct_poverty
+
+**Clustering:**
+- K-means with K=6 (determined via elbow method)
+- 135 routes with complete data
+
+### Key Findings
+
+<figure style="text-align:center;">
+  <img src="images/Cluster_HeatMap.png" width="60%">
+  <figcaption>Cluster profiles: Red = above average, Blue = below average. Cluster 1 shows high poverty/minority but low reliability.</figcaption>
+</figure>
+
+**Cluster 1 (Underserved): 16 routes**
+- Routes: 8, 14, 17, 19, 26, 29, 41, 42, 43, 44, 45, 47, 55, 112, 114, 171
+- Neighborhoods: Roxbury, Dorchester, Mattapan, Hyde Park, Chelsea, Everett
+- Profile: Highest poverty (+1.4 SD), high minority (+1.1 SD), high transit-dependence (+1.2 SD)
+- Service: **WORST reliability (-1.1 SD)**
+
+**Cluster 4 (Privileged): 29 routes**
+- Profile: Highest income (+1.2 SD), low minority (-1.0 SD), low poverty (-0.97 SD)
+- Service: Good reliability (+0.69 SD) **despite low ridership (-0.79 SD)**
+
+<figure style="text-align:center;">
+  <img src="images/Routes_by_percent_scatter.png" width="60%">
+  <figcaption>Routes by % Non-white vs Reliability. Cluster 1 (underserved) appears in the lower-right quadrant.</figcaption>
+</figure>
+
+### The Equity Paradox
+
+Clusters 1 and 5 serve **similar demographics** (high poverty, high minority) but receive opposite service:
+
+| | Cluster 1 | Cluster 5 |
+|--|-----------|-----------|
+| Demographics | High poverty, high minority | High poverty, high minority |
+| Reliability | -1.1 (worst) | +1.4 (best) |
+| Route type | Neighborhood routes | Flagship "Key Bus Routes" |
+
+**Interpretation**: MBTA investment appears selective—only flagship routes in disadvantaged areas get priority.
+
+This clustering analysis establishes **ground truth** (what currently exists). Combined with our predictive modeling analysis:
+
+| Analysis | Finding |
+|----------|---------|
+| **Clustering (this notebook)** | Minority communities currently receive worse service |
+| **Predictive Modeling** | Models underestimate demand for minority communities |
+
+**Combined interpretation**: The system both **underserves** and **undercounts** minority communities, creating a feedback loop that perpetuates inequity.
+
+
+---
+
 
 ## **Reliability Data**
 
