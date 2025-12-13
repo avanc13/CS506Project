@@ -2,7 +2,7 @@
 
 video link: https://www.youtube.com/watch?v=CNgK63r3PCk
 
-**Description of the project.**
+**Description of the project**
 
 This project aims to analyze disparities in bus service performance and equity in the city of Boston using MBTA ridership, reliability, and passenger service data, focusing on delays and excess trip time. We will use operational features, such as routes, schedule vs. actual times, ridership levels, etc. and demographic features such as race, car access, age, and income (from ACS Census Data) to predict the likelihood of trip delays. We are primarily focused on predictive modeling (classification/regression). We want to identify which communities within Boston are most disproportionately affected by potentially unreliable service as well as forecast ridership volume and delay for future bus routes.
 
@@ -19,6 +19,8 @@ This project requires Python 3.9+ and the following packages:
 - openpyxl
 - joblib
 - pytest
+- seaborn
+- scipy
 
 Install dependencies with:
 
