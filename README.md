@@ -35,12 +35,22 @@ This project requires Python 3.9+ and the following packages:
 - pytest
 - seaborn
 - scipy
+- geopandas
+- shapely
+- gdown
 
-Install dependencies with:
+For downloading the necesary csv data files for reproduction, run the Makefile
+
+Install dependencies and data with:
 
 ```bash
-pip install -r requirements.txt
+make setup
 ```
+
+Some notebooks use zip files as data is quite large in some instances, and these are not downloaded by the Makefile unfortunately due to permission errors from google drive virus scan. If you would like to download the zip files for reproduction, please access them directly in this drive link: 
+ - https://drive.google.com/drive/folders/1T0pZizsq6LAh7_BY6rIR-iZhbYVcWsAu
+and add them directly to the local data folder created by running the Makefile, which should house the rest of the csv data. 
+
 ---
 ## Data Sources
 
@@ -521,6 +531,8 @@ The XGBoost regression model achieves the strongest performance among all evalua
 <figure style="text-align:center;">
   <img src="images/p_v_a_xgboost.png" width="60%">
   <figcaption>Predictions closely track actual delays for typical conditions but diverge for extreme delays.</figcaption>
+
+The relative data noise and comparatively ineffective ways to tie delay data to demographic data made other angles, such as ridership and reliability, more suitable paths to follow in order to answer the main questions of this project, hence why they are the focus point of the final presentation video.
 
 ## Conclusions
 
