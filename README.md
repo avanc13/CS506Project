@@ -49,6 +49,27 @@ Data contains ridership information from 2016–2024, seasons: Fall (all years) 
 
 ---
 
+### **Demographic Data**
+
+US Census API 2022 Demographic Data for MA for the following 5 counties: Suffolk, Norfolk, Plymouth, MiddleSex, Essex. 
+
+To access this data:
+
+1. Go to US Census & request an API Key to be sent to your email
+   
+2. Use the following state & county codes:
+MA state = 25
+Plymouth = 023
+Suffolk = 025
+Essex = 009
+Middlesex = 017
+Norfolk = 021
+
+3. "Translate" US Census Codes into Human-Readable Variables. For example, code B19013_001E refers to median_household_income. (Full example notebook for Norfolk is included. We used the same code for the other counties, just replacing the Norfolk county code with the one we want.)
+   
+5. Some data will be filled in with dummy "suppression" codes for information that is private. We removed these.
+   
+
 ### **Key visual Findings: combining_data.ipynb**
 
 <figure style="text-align:center;">
