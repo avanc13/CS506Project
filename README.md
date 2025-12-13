@@ -196,63 +196,98 @@ This analysis is correlational, not really causal: demographic features may prox
 
 <h3><u>Data Processing:</u></h3>
 
-The initial analysis was performed on the "MBTA Commuter Rail, Bus, Rapid Transit Reliability" dataset. The goal of our processing was to isolate a clean, analysis-ready dataset focused specifically on bus service reliability for the period relevant to our project (2018-present).
+The initial analysis was performed on the "MBTA Commuter Rail, Bus, Rapid Transit Reliability" dataset.
 
-In the context of this project, reliability is one of the most important metrics to determine service quality. 
+The goal of our processing was to isolate a clean, analysis-ready dataset focused specifically on bus service reliability for the period relevant to our project (2018-present).
 
-**Reliability Metric:** percentage of observed bus trips that were both on time (schedule adherence) and properly spaced (headway). 
+In the context of this project, reliability is one of the most important metrics to determine service quality.
 
----
+Reliability Metric: percentage of observed bus trips that were both on time (schedule adherence) and properly spaced (headway).
 
 The following processing pipeline was executed:
 
 - <u>Data loading</u>: The raw CSV data was loaded into a pandas DataFrame.
-
-- **Mode filtering:** The dataset was filtered to retain only records where the mode_type was 'Bus'. All 'Rail' and 'Commuter Rail' data was discarded.
-
-- **Time filtering:** The data was filtered to include only records where the service_date was on or after January 1, 2018, establishing our pre- and post-pandemic analysis window.
-
-- **Handling missing values:**
+- Mode filtering: The dataset was filtered to retain only records where the mode_type was 'Bus'. All 'Rail' and 'Commuter Rail' data was discarded.
+- Time filtering: The data was filtered to include only records where the service_date was on or after January 1, 2018, establishing our pre- and post-pandemic analysis window.
+- Handling missing values:
   - ‘cancelled_numerator’: Null (NaN) values in this column were filled with 0, based on the assumption that a missing value indicates zero observed cancellations for that service block.
   - ‘otp_numerator / otp_denominator’: Rows with null values in either of these essential columns were dropped, as reliability cannot be calculated without them.
+- <u>Feature Engineering (Reliability Metric)</u>: The primary dependent variable, reliability_metric, was engineered by dividing otp_numerator by otp_denominator.
 
-- <u>Feature Engineering (Reliability Metric)</u>:  
-  The primary dependent variable, reliability_metric, was engineered by dividing otp_numerator by otp_denominator.
+This metric represents the percentage of observed bus trips that met service standards.
 
-This metric represents the percentage of observed bus trips that met service standards. This metric serves as our primary proxy for service quality and the inverse of delay risk.
+This metric serves as our primary proxy for service quality and the inverse of delay risk.
+
 The resulting cleaned dataset contains a daily reliability score for each unique bus route (gtfs_route_short_name) and service period (peak_offpeak_ind).
-
----
 
 <h3><u>Preliminary Visualizations</u></h3>
 
-We produced a system-wide reliability time series. This plot shows average reliability across all bus routes, aggregated monthly.
+We produced a system-wide reliability time series.
 
-The plot displays two lines: one for 'PEAK' (weekday rush hour) and one for 'OFF_PEAK' (all other times). A vertical red line marks the start of the COVID-19 pandemic in March 2020.
+This plot shows average reliability across all bus routes, aggregated monthly.
 
-<figure style="text-align:center;">
-  <img src="images/avg_monthly_reliability.png" width="55%">
-</figure>
+The plot displays two lines: one for 'PEAK' (weekday rush hour) and one for 'OFF_PEAK' (all other times).
 
-<figure style="text-align:center;">
-  <img src="images/top_5_reliability.png" width="55%">
-</figure>
+A vertical red line marks the start of the COVID-19 pandemic in March 2020.
 
----
+<figure style="text-align:center;"><img src="images/avg_monthly_reliability.png" width="55%"></figure>
 
-**Key insights:**
+<figure style="text-align:center;"><img src="images/top_5_reliability.png" width="55%"></figure>
+
+Key insights:
+
 - Infrastructure is a decisive factor, the top performing routes, such as the SL2 and SL5, are Bus Rapid Transit (BRT) routes that operate in dedicated, bus only lanes. Their high performance is not random but a direct result of infrastructure that physically separates them from car traffic.
 - The performance gap between PEAK and OFF_PEAK is minimal or non-existent. This is a critical finding, giving us hints that with proper infrastructure, it is possible to run a highly reliable bus service even during rush hour.
 - Unlike the system-wide plot, these top performing routes showed almost no change in reliability after the March 2020 pandemic line. Their performance was already high and remained high, proving they are largely decoupled from the traffic congestion that plagues other routes.
 
----
+Phase 2: Modeling & Equity Analysis
 
-**Results:**
-- Service disparities are evident: The analysis confirms that performance is not evenly distributed. The ability to identify the low and high performing routes is the first crucial step in linking service quality to specific communities or demographics. 
-- "Rush hour" is less reliable: The data confirms that PEAK service is consistently less reliable than OFF_PEAK service. This implies that commuters, who are most likely to travel during PEAK hours, are disproportionately affected by delays.
-- Reliability shows a clear inversely correlation with traffic: The pandemic provided the situation where reliability increased as traffic vanished. This supports the hypothesis that delays on low-performing routes are primarily driven by congestion from mixed traffic.
+<h3><u>Modeling Strategy</u></h3>
 
----
+We implemented a two-phased modeling approach to move from baseline prediction to equity analysis.
+
+- Operational Model: Uses internal MBTA data (Route ID, Time, Season) to establish a performance baseline.
+- Equity Model: Integrates external Census data to test if neighborhood demographics (Income, Vehicle Access) predict service reliability.
+
+<h3><u>1. Operational Baseline & Risk Prediction</u></h3>
+
+We trained a Random Forest Regressor to predict daily reliability scores and a Classifier to flag "High Risk" days (reliability < 70%).
+
+Accuracy: The classifier achieved 76% accuracy in predicting service failure.
+
+Key Driver: "Route Identity" was the dominant predictor, confirming that systemic route characteristics (length, infrastructure) outweigh temporal factors like seasonality.
+
+<figure style="text-align:center;"><img src="images/feature_importance.png" width="55%" alt="Operational Feature Importance"><figcaption>Operational Feature Importance: Route identity outweighs seasonal factors.</figcaption></figure>
+
+<figure style="text-align:center;"><img src="images/model_performance_dashboard.png" width="80%" alt="Model Classification Performance"><figcaption>Classification Dashboard: The model decisively separates reliable vs. unreliable service days.</figcaption></figure>
+
+<h3><u>2. Geospatial & Equity Integration</u></h3>
+
+To link service quality to communities, we built a geospatial pipeline using PATI Bus Stop data and MassGIS Census Tracts.
+
+Spatial Join: Mapped 6,890 individual bus stops to Massachusetts Census Tracts with a 100% match rate.
+
+Demographic Enrichment: Integrated ACS 5-Year Estimates to calculate route-level profiles for:
+
+- Median Household Income (DP03)
+- Vehicle Availability (DP04)
+- Racial Composition (DP05) [Note: DP05 excluded from final model due to data quality issues]
+
+<h3><u>3. Equity Model Results</u></h3>
+
+The final Equity Model ($R^2 \approx 0.35$) revealed significant socioeconomic disparities in service quality.
+
+<figure style="text-align:center;"><img src="images/r2_reliability_equity.png" width="55%" alt="R^2 Value for Equity Model based on Reliability Data"><figcaption>R^2 Value for Equity Model based on Reliability Data</figcaption></figure>
+
+Income is a Top Predictor: route_avg_income emerged as the single strongest predictor of reliability, often outweighing operational factors like "Peak Hour" status.
+
+Direction of Bias: Partial Dependence Plots confirm a positive correlation: controlling for other factors, routes serving wealthier neighborhoods consistently exhibit higher reliability.
+
+Density/Car Effect: Neighborhoods with lower car ownership also showed higher reliability, likely reflecting better service in dense, transit-rich urban cores compared to outlying suburbs.
+
+<figure style="text-align:center;"><img src="images/equity_feature_importance.png" width="55%" alt="Equity Feature Importance"><figcaption>Equity Analysis: Demographic features (Red) significantly impact reliability prediction.</figcaption></figure>
+
+<figure style="text-align:center;"><img src="images/final_income_pdp.png" width="55%" alt="Income Partial Dependence Plot"><figcaption>Partial Dependence: Higher neighborhood income correlates with higher modeled reliability.</figcaption></figure>
 
 ## **MBTA Bus Delay & Passenger Wait Time Analysis (2018–2024)**
 
