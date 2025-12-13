@@ -1,10 +1,12 @@
 # Boston Bus Equity Project
 
-video link: https://www.youtube.com/watch?v=CNgK63r3PCk
+video link: NEEDED
+---
+## **Executive Summary**
 
-**Description of the project**
+This project investigates equity in MBTA bus service across Greater Boston, analyzing whether transit-dependent communities—those with lower incomes, higher minority populations, and limited vehicle access—receive equitable service quality.
 
-This project aims to analyze disparities in bus service performance and equity in the city of Boston using MBTA ridership, reliability, and passenger service data, focusing on delays and excess trip time. We will use operational features, such as routes, schedule vs. actual times, ridership levels, etc. and demographic features such as race, car access, age, and income (from ACS Census Data) to predict the likelihood of trip delays. We are primarily focused on predictive modeling (classification/regression). We want to identify which communities within Boston are most disproportionately affected by potentially unreliable service as well as forecast ridership volume and delay for future bus routes.
+**Key Finding**: Our analyses reveal systematic inequity in MBTA bus service. Routes serving high-poverty, high-minority, transit-dependent communities experience **worse reliability** and have their **demand underestimated** by predictive models, creating a feedback loop that perpetuates underinvestment.
 
 ---
 ## How to Reproduce Results
