@@ -65,7 +65,7 @@ Essex = 009
 Middlesex = 017
 Norfolk = 021
 
-3. "Translate" US Census Codes into Human-Readable Variables. For example, code B19013_001E refers to median_household_income. (Full example notebook for Norfolk is included. We used the same code for the other counties, just replacing the Norfolk county code with the one we want.)
+3. "Translate" US Census Codes into Human-Readable Variables. For example, code B19013_001E refers to median_household_income. 
    
 5. Some data will be filled in with dummy "suppression" codes for information that is private. We removed these.
    
