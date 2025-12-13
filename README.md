@@ -122,11 +122,6 @@ Built a baseline ridership forecasting model, using:
   <img src="images/route_28.png" width="55%">
 </figure>
 
----
-
-**What have we learned so far? (midterm)**
-
-There is enough signal in the features to predict ridership volume for the post pandemic years. This baseline model explains ~75% of the variability in the target–indicating that the structure of our data is learnable and generalizable. 
 
 ---
 
