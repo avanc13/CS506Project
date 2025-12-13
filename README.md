@@ -96,9 +96,64 @@ Refer to : combining_data.ipynb
   <img src="images/total_ridership_year.png" width="55%">
   <figcaption>COVID-19 caused ~50% ridership drop in 2020; ridership has recovered and exceeded pre-pandemic levels by 2024. </figcaption>
 </figure>
+
+---
+## Key Findings
+
+### 1. Demographics Significantly Improve Ridership Predictions
+
+| Model | Features | R² | MAE |
+|-------|----------|-----|-----|
+| Baseline | Route + Time only | 0.75 | 40.0 |
+| **With Demographics** | + Income, Minority %, Vehicle Access | **0.92** | **20.4** |
+
+Adding demographic features improved model performance by 23%, indicating ridership patterns are strongly tied to community characteristics.
+
+### 2. Systematic Prediction Bias Against Minority Communities
+
+Our ridership model systematically **underpredicts demand for higher-minority routes**. A classifier trained to predict underprediction achieved **AUC = 0.84** using only demographic features—proving errors are structured, not random.
+
+<figure style="text-align:center;">
+  <img src="images/residuals_vs_pct_minority.png" width="55%">
+  <figcaption>Negative trend: Higher-minority routes experience greater underprediction.</figcaption>
+</figure>
+
+### 3. Underserved Route Clusters Identified
+
+K-means clustering of 135 routes revealed **6 distinct groups**. The most underserved cluster:
+
+**Cluster 1 (16 routes)**: 8, 14, 17, 19, 26, 29, 41, 42, 43, 44, 45, 47, 55, 112, 114, 171
+
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| Poverty | +1.4 SD | Highest poverty neighborhoods |
+| Minority % | +1.1 SD | High minority population |
+| Transit Dependence | +1.2 SD | High zero-vehicle households |
+| **Reliability** | **-1.1 SD** | **Worst service quality** |
+
+These routes serve Roxbury, Dorchester, Mattapan, Hyde Park, Chelsea, and Everett.
+
+<figure style="text-align:center;">
+  <img src="images/Cluster_HeatMap.png" width="60%">
+  <figcaption>Cluster profiles: Red = above average, Blue = below average.</figcaption>
+</figure>
+
+### 4. Income Predicts Service Quality
+
+Reliability modeling revealed **neighborhood income is a top predictor** of service quality. Routes serving wealthier areas consistently exhibit higher reliability, even controlling for operational factors.
+
+<figure style="text-align:center;">
+  <img src="images/final_income_pdp.png" width="55%">
+  <figcaption>Partial dependence: Higher income correlates with higher reliability.</figcaption>
+</figure>
+
+### 5. The Equity Paradox
+
+Some high-minority routes (Cluster 5: flagship "Key Bus Routes") receive **excellent** service, while most neighborhood routes serving similar demographics (Cluster 1) receive the **worst**. This suggests MBTA investment is **selective rather than systematically equitable**.
+
 ---
 
-## **Predictive Modeling Methods** (Mideterm Report): predictve_ridership.ipynb
+## **Predictive Modeling Methods** (Midterm Report): predictve_ridership.ipynb
 
 Built a baseline ridership forecasting model, using:
 
