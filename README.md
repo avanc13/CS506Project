@@ -39,48 +39,17 @@ Install dependencies with:
 pip install -r requirements.txt
 ```
 ---
-## Data
+## Data Sources
 
-Download the following datasets and place them in a data/ directory:
+| Dataset | Source | Relevant Notebook/File | Description |
+|---------|--------|-------------------|-------------|
+| MBTA Ridership (2016-2024) | [MBTA Open Data](https://mbta-massdot.opendata.arcgis.com/) | `notebooks/Ridership/data_vis/combining_data.ipynb` | Daily boarding counts by route, stop, time |
+| MBTA Reliability (2018-2024) | [MBTA Open Data](https://mbta-massdot.opendata.arcgis.com/) | `notebooks/Reliability/looking_at_data_reliability.ipynb` | On-time performance metrics |
+| CTPS Rider Survey (2015-2017) | [CTPS](https://www.ctps.org/dv/mbtasurvey2018/) | `equity.ipynb` | Rider demographics by route |
+| US Census ACS (2022) | [Census API](https://api.census.gov/data/key_signup.html) | `all_counties_demographics.csv` | Tract-level demographics for 5 MA counties |
+| MBTA Bus Stops | MassGIS | Pre-processed | Stop locations with census tract GEOIDs |
 
-cleaned_mbta_ridership_2016_2024.csv
-
-Source: https://mbta-massdot.opendata.arcgis.com/
-- run notebooks/Ridership/data_vis/combining_data.ipynb -- to get the cleaned csv
-
-MBTA_systemwide_survey_results_by_station_and_line.xlsx
-
-Source: https://www.ctps.org/dv/mbtasurvey2018/index.html#navButton
-
-run: equity.ipynb for model and visualizations
-## **Ridership Data**
-
-Datasets: Using ridership data collected from:  
-https://mbta-massdot.opendata.arcgis.com/datasets/7acd353c1a734eb8a23caf46a0e66b23_0/explore
-
-Data contains ridership information from 2016–2024, seasons: Fall (all years) (spring 2024 only).
-
----
-
-### **Demographic Data**
-
-US Census API 2022 Demographic Data for MA for the following 5 counties: Suffolk, Norfolk, Plymouth, MiddleSex, Essex. 
-
-To access this data:
-
-1. Go to US Census & request an API Key to be sent to your email
-   
-2. Use the following state & county codes:
-MA state = 25
-Plymouth = 023
-Suffolk = 025
-Essex = 009
-Middlesex = 017
-Norfolk = 021
-
-3. "Translate" US Census Codes into Human-Readable Variables. For example, code B19013_001E refers to median_household_income. 
-   
-5. Some data will be filled in with dummy "suppression" codes for information that is private. We removed these.
+**Geographic Coverage**: Suffolk, Middlesex, Norfolk, Essex, and Plymouth counties
 
 ---
    
