@@ -9,6 +9,15 @@ This project investigates equity in MBTA bus service across Greater Boston, anal
 **Key Finding**: Our analyses reveal systematic inequity in MBTA bus service. Routes serving high-poverty, high-minority, transit-dependent communities experience **worse reliability** and have their **demand underestimated** by predictive models, creating a feedback loop that perpetuates underinvestment.
 
 ---
+## Research Questions
+
+1. Can we accurately predict bus ridership using operational and demographic features?
+2. Are prediction errors systematically related to rider demographics?
+3. Which bus routes are most underserved relative to their community needs?
+4. Does service reliability correlate with neighborhood socioeconomic characteristics?
+
+---
+
 ## How to Reproduce Results
 
 ### 1. Environment Setup
