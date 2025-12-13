@@ -70,6 +70,8 @@ Norfolk = 021
 3. "Translate" US Census Codes into Human-Readable Variables. For example, code B19013_001E refers to median_household_income. 
    
 5. Some data will be filled in with dummy "suppression" codes for information that is private. We removed these.
+
+---
    
 
 ### **Key visual Findings: combining_data.ipynb**
