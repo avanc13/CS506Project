@@ -149,11 +149,22 @@ Reliability modeling revealed **neighborhood income is a top predictor** of serv
 
 ### 5. The Equity Paradox
 
-Some high-minority routes (Cluster 5: flagship "Key Bus Routes") receive **excellent** service, while most neighborhood routes serving similar demographics (Cluster 1) receive the **worst**. This suggests MBTA investment is **selective rather than systematically equitable**.
+Clusters 1 and 5 serve **similar demographics** (high poverty, high minority) but receive opposite service:
+
+| | Cluster 1 | Cluster 5 |
+|--|-----------|-----------|
+| Demographics | High poverty, high minority | High poverty, high minority |
+| Reliability | -1.1 (worst) | +1.4 (best) |
+| Route type | Neighborhood routes | Flagship "Key Bus Routes" |
+
+**Interpretation**: MBTA investment appears selective—only flagship routes in disadvantaged areas get priority.
 
 ---
+## Methodology
 
-## **Predictive Modeling Methods** (Midterm Report): predictve_ridership.ipynb
+### Ridership Forecasting
+
+**Notebook**: `notebooks/Ridership/predictive_modeling/initial_predictive_ridership.ipynb`
 
 Built a baseline ridership forecasting model, using:
 
@@ -180,7 +191,10 @@ Built a baseline ridership forecasting model, using:
 
 ---
 
-**New Modeling- Ridership Forecasting with Demographics + Equity Analysis (equity.ipynb)**
+### Equity Analysis
+
+**Notebook**: `equity.ipynb`
+
 Goal: Improve forecast accuracy and test whether errors are systematically related to demographic characteristics of riders.
 
 Added Features (route-level survey percentages):
@@ -260,7 +274,7 @@ This analysis is correlational, not really causal: demographic features may prox
 
 ## **Route Clustering Analysis: Identifying Underserved Routes**
 
-Code: route_clustering.ipynb
+**Notebook**: `notebooks/Clustering/route_clustering.ipynb`
 
 **Goal**: Group MBTA bus routes by performance + demographics to identify which route clusters are systematically underserved.
 
@@ -276,7 +290,18 @@ Code: route_clustering.ipynb
 
 **Clustering:**
 - K-means with K=6 (determined via elbow method)
-- 135 routes with complete data
+- 156 routes with complete data
+  
+**Results**:
+
+| Cluster | Routes | Profile |
+|---------|--------|---------|
+| 0 | 27 | Suburban, wealthy, poor reliability |
+| **1** | **16** | **High poverty/minority, WORST reliability** |
+| 2 | 20 | Urban professional, good reliability |
+| 3 | 29 | Mixed working-class, moderate |
+| 4 | 29 | Wealthy, white, good reliability despite low demand |
+| 5 | 14 | Flagship routes, BEST reliability 
 
 ### Key Findings
 
@@ -299,20 +324,6 @@ Code: route_clustering.ipynb
   <img src="images/Routes_by_percent_scatter.png" width="60%">
   <figcaption>Routes by % Non-white vs Reliability. Cluster 1 (underserved) appears in the lower-right quadrant.</figcaption>
 </figure>
-
-### The Equity Paradox
-
-Clusters 1 and 5 serve **similar demographics** (high poverty, high minority) but receive opposite service:
-
-| | Cluster 1 | Cluster 5 |
-|--|-----------|-----------|
-| Demographics | High poverty, high minority | High poverty, high minority |
-| Reliability | -1.1 (worst) | +1.4 (best) |
-| Route type | Neighborhood routes | Flagship "Key Bus Routes" |
-
-**Interpretation**: MBTA investment appears selective—only flagship routes in disadvantaged areas get priority.
-
-This clustering analysis establishes **ground truth** (what currently exists). Combined with our predictive modeling analysis:
 
 | Analysis | Finding |
 |----------|---------|
@@ -538,9 +549,44 @@ The XGBoost regression model achieves the strongest performance among all evalua
 <figure style="text-align:center;">
   <img src="images/p_v_a_xgboost.png" width="60%">
   <figcaption>Predictions closely track actual delays for typical conditions but diverge for extreme delays.</figcaption>
-</figure>
 
-<h4><u>Conclusion</u></h4>
+## Conclusions
 
-While classification and regression models demonstrate reasonable performance for real-world transit data, the XGBoost regression model explains only about 36% of the variance in delay duration, reflecting the inherent difficulty of predicting bus delays. Many influential factors—such as traffic congestion, weather conditions, and operational disruptions—are not captured in the dataset and introduce significant unpredictability. Despite these limitations, the model achieves practical accuracy (MAE ≈ 2.85 minutes) and provides a scalable framework for analyzing and modeling public transit reliability.
+### The Feedback Loop of Inequity
 
+Our analyses converge on a central finding: **MBTA bus service exhibits systematic inequity** that perpetuates itself through multiple mechanisms:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  1. WORSE SERVICE                                           │
+│     Routes serving minority/low-income areas have           │
+│     lower reliability (Clustering, Reliability Analysis)    │
+│                           ↓                                 │
+│  2. UNDERESTIMATED DEMAND                                   │
+│     Predictive models undercount ridership for these        │
+│     same communities (Equity Analysis)                      │
+│                           ↓                                 │
+│  3. CONTINUED UNDERINVESTMENT                               │
+│     Biased data justifies resource allocation that          │
+│     maintains the status quo                                │
+│                           ↓                                 │
+│     (Returns to Step 1)                                     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Specific Findings
+
+1. **Demographics matter**: Adding demographic features improved ridership prediction from R² = 0.75 to R² = 0.92
+2. **Bias is measurable**: Underprediction for minority routes is predictable (AUC = 0.84)
+3. **Inequity is spatial**: 16 specific routes serving disadvantaged neighborhoods identified as underserved
+4. **Investment is selective**: Only flagship routes in minority areas receive adequate service
+5. **Income correlates with quality**: Wealthier neighborhoods receive better reliability
+
+
+### Implications for Transit Planners
+
+- Current data-driven planning tools may perpetuate historical inequities
+- Service improvements should prioritize identified underserved routes
+- Equity metrics should be explicitly incorporated into resource allocation decisions
+
+*Boston University CS506 - Fall 2025*
