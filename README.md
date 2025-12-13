@@ -1,8 +1,8 @@
 # Boston Bus Equity Project
+---
+CS506 Final Project
 
-## 🎥 Project Video Presentation
-
-[Project Video Presentation](https://youtu.be/Vh9Ff9hcK90)
+🎥 [Project Video Presentation](https://youtu.be/Vh9Ff9hcK90)
 
 ---
 ## **Executive Summary**
