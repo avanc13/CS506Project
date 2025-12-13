@@ -84,8 +84,8 @@ Norfolk = 021
 
 ---
    
-
-### **Key visual Findings: combining_data.ipynb**
+### **Ridership Patterns**
+Refer to : combining_data.ipynb
 
 <figure style="text-align:center;">
   <img src="images/ridership_hour_day_type.png" width="55%">
@@ -94,7 +94,7 @@ Norfolk = 021
 
 <figure style="text-align:center;">
   <img src="images/total_ridership_year.png" width="55%">
-  <figcaption>Pandemic impact: Systemwide ridership collapsed in 2020–2021 and has recovered by 2024.</figcaption>
+  <figcaption>COVID-19 caused ~50% ridership drop in 2020; ridership has recovered and exceeded pre-pandemic levels by 2024. </figcaption>
 </figure>
 ---
 
