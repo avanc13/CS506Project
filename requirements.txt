@@ -5,3 +5,7 @@ matplotlib
 openpyxl
 joblib
 pytest
+seaborn
+geopandas
+shapely
+gdown
